@@ -1,0 +1,40 @@
+<div class="calendar">
+  <!-- Calendar type dropdown -->
+  <div class="calendar-type">
+    <mat-form-field>
+      <mat-label>Calendar Type:</mat-label>
+      <mat-select data-cy="calendar-type-dropdown" (selectionChange)="calendarService.setType($event.value)"
+                  [(value)]="selectedCalendarType">
+        <mat-option [value]="CalendarType.Gregorian">{{ CalendarType.Gregorian }}</mat-option>
+        <mat-option [value]="CalendarType.Jalaali">{{ CalendarType.Jalaali }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="calendar-container">
+    <!-- Header -->
+    <div class="calendar-header">
+      <button data-cy="calendar-previous" mat-button extended (click)="previousMonth()">
+        <mat-icon>chevron_left</mat-icon>
+        Previous
+      </button>
+      <span data-cy="calendar-label">{{ currentDate | dateFormat: selectedCalendarType }}</span>
+      <button data-cy="calendar-next" mat-button extended (click)="nextMonth()">
+        <mat-icon iconPositionEnd>chevron_right</mat-icon>
+        Next
+      </button>
+    </div>
+    <!-- Week names -->
+    <div class="calendar-weeks">
+      <div class="calendar-week-name" *ngFor="let day of selectedCalendarType | weekNameList">{{ day }}</div>
+    </div>
+    <!-- Days -->
+    <div class="calendar-body">
+      <div class="calendar-days" *ngFor="let week of monthInfo?.weeks">
+        <div class="calendar-day-container" *ngFor="let day of week"
+             [ngClass]="{'calendar-today': monthInfo?.today === day}">
+          <span>{{ day }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
